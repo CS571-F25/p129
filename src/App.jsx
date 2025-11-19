@@ -1,34 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import WelcomeScreen from './screens/WelcomeScreen'
+import DashboardScreen from './screens/DashboardScreen'
+import MealPlannerScreen from './screens/MealPlannerScreen'
+import PersonalInfoScreen from './screens/PersonalInfoScreen'
+import RecipeDatabaseScreen from './screens/RecipeDatabaseScreen'
+import ShoppingListScreen from './screens/ShoppingListScreen'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<WelcomeScreen />} />
+      <Route path="/dashboard" element={<DashboardScreen />} />
+      <Route path="/meal-planner" element={<MealPlannerScreen />} />
+      <Route path="/personal-info" element={<PersonalInfoScreen />} />
+      <Route path="/recipe-database" element={<RecipeDatabaseScreen />} />
+      <Route path="/shopping-list" element={<ShoppingListScreen />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 

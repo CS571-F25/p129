@@ -1,0 +1,232 @@
+.dashboard-container {
+  min-height: 100vh;
+  padding-bottom: 100px;
+  background-color: white;
+}
+
+.dashboard-header {
+  background-color: #22c55e;
+  color: white;
+  padding: 40px 20px 50px 20px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 40px;
+  position: relative;
+}
+
+.header-icons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.header-icon {
+  color: white;
+  opacity: 0.9;
+}
+
+.alpha-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ec4899;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.greeting-text {
+  opacity: 0.95;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.user-name {
+  font-size: 2.5rem;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.date-text {
+  opacity: 0.95;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.nutrition-card {
+  border-radius: 16px;
+  border: none;
+  margin-bottom: 32px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-title {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.calories-label {
+  font-size: 0.875rem;
+}
+
+.calories-value {
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.progress-bar-container {
+  height: 10px;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #22c55e;
+  border-radius: 8px;
+}
+
+.macro-label {
+  font-size: 0.75rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.macro-value {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.meals-title {
+  color: #1f2937;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.meal-card {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.meal-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.meal-image-container {
+  height: 120px;
+  overflow: hidden;
+}
+
+.meal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.meal-type {
+  color: #22c55e;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.meal-name {
+  color: #1f2937;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.meal-nutrition {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+  padding: 16px 0;
+  z-index: 1000;
+}
+
+.nav-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 12px 8px;
+}
+
+.nav-button-white {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.nav-button-white:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.nav-button-green {
+  background-color: #22c55e;
+  border: none;
+  color: white;
+}
+
+.nav-button-green:hover {
+  background-color: #16a34a;
+  color: white;
+}
+
+.nav-icon {
+  margin-bottom: 4px;
+}
+
+.nav-icon-white {
+  color: #1f2937;
+}
+
+.nav-icon-green {
+  color: white;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.nav-label-white {
+  color: #374151;
+}
+
+.nav-label-green {
+  color: white;
+}
+

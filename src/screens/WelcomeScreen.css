@@ -1,0 +1,92 @@
+.welcome-container {
+  min-height: 100vh;
+  background-color: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.logo-container {
+  width: 100px;
+  height: 100px;
+  background-color: #22c55e;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.app-title {
+  color: #1f2937;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.app-tagline {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+.buttons-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.btn-email {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 500;
+  color: white;
+  border: none;
+}
+
+.btn-email:hover {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.btn-social {
+  background-color: white;
+  border-color: #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 500;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-social:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.login-text {
+  color: #9ca3af;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+.login-link {
+  color: #22c55e;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.login-link:hover {
+  color: #16a34a;
+  text-decoration: underline;
+}
+
