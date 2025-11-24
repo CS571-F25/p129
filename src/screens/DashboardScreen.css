@@ -1,24 +1,24 @@
 .dashboard-container {
   min-height: 100vh;
-  padding-bottom: 100px;
+  padding-bottom: 120px;
   background-color: white;
 }
 
 .dashboard-header {
   background-color: #22c55e;
   color: white;
-  padding: 40px 20px 50px 20px;
+  padding: 60px 0 80px 0;
   border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 40px;
+  border-bottom-right-radius: 50px;
   position: relative;
 }
 
 .header-icons {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 30px;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
 }
 
@@ -28,64 +28,65 @@
 }
 
 .alpha-badge {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #ec4899;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .greeting-text {
   opacity: 0.95;
-  margin-bottom: 4px;
-  font-size: 1rem;
+  margin-bottom: 8px;
+  font-size: 1.125rem;
 }
 
 .user-name {
-  font-size: 2.5rem;
-  margin-bottom: 4px;
+  font-size: 3.5rem;
+  margin-bottom: 8px;
   font-weight: bold;
 }
 
 .date-text {
   opacity: 0.95;
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   margin-bottom: 0;
 }
 
 .nutrition-card {
-  border-radius: 16px;
+  border-radius: 20px;
   border: none;
-  margin-bottom: 32px;
-  padding: 1.5rem;
+  margin-bottom: 40px;
+  padding: 2rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .nutrition-title {
   color: #1f2937;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .calories-label {
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .calories-value {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #374151;
   font-weight: 500;
 }
 
 .progress-bar-container {
-  height: 10px;
+  height: 12px;
   background-color: #e5e7eb;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
 }
@@ -93,17 +94,17 @@
 .progress-bar-fill {
   height: 100%;
   background-color: #22c55e;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .macro-label {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .macro-value {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin-bottom: 0;
   font-weight: 600;
   color: #1f2937;
@@ -111,24 +112,27 @@
 
 .meals-title {
   color: #1f2937;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: bold;
+  font-size: 1.75rem;
 }
 
 .meal-card {
   cursor: pointer;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 20px;
   border: none;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .meal-card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .meal-image-container {
-  height: 120px;
+  height: 180px;
   overflow: hidden;
 }
 
@@ -136,28 +140,33 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.meal-card:hover .meal-image {
+  transform: scale(1.05);
 }
 
 .meal-type {
   color: #22c55e;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   letter-spacing: 0.5px;
   font-weight: bold;
   text-transform: uppercase;
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .meal-name {
   color: #1f2937;
-  font-size: 1rem;
+  font-size: 1.25rem;
   line-height: 1.3;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .meal-nutrition {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #6b7280;
 }
 
@@ -168,8 +177,9 @@
   right: 0;
   border-top: 1px solid #e5e7eb;
   background: white;
-  padding: 16px 0;
+  padding: 20px 0;
   z-index: 1000;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .nav-button {
@@ -179,7 +189,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  padding: 12px 8px;
+  padding: 16px 12px;
+  transition: all 0.2s;
 }
 
 .nav-button-white {
@@ -206,7 +217,7 @@
 }
 
 .nav-icon {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .nav-icon-white {
@@ -218,7 +229,7 @@
 }
 
 .nav-label {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 

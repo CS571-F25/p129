@@ -35,7 +35,7 @@ export default function DashboardScreen() {
           <div className="alpha-badge">J</div>
         </div>
 
-        <Container style={{ maxWidth: 600 }}>
+        <Container>
           <p className="greeting-text">Good Morning,</p>
           <h1 className="user-name">Jamie!</h1>
           <p className="date-text">Monday, October 6, 2025</p>
@@ -43,7 +43,7 @@ export default function DashboardScreen() {
       </div>
 
       {/* Body */}
-      <Container style={{ maxWidth: 600, marginTop: "-30px" }}>
+      <Container style={{ marginTop: "-30px" }}>
         {/* Summary Card */}
         <Card className="nutrition-card shadow-sm">
           <h5 className="nutrition-title">Today's Nutrition</h5>
@@ -92,7 +92,7 @@ export default function DashboardScreen() {
             className="meal-card shadow-sm"
           >
             <Row className="g-0">
-              <Col xs={4}>
+              <Col xs={4} md={3}>
                 <div className="meal-image-container">
                   <img
                     src={breakfastMeal.image}
@@ -101,32 +101,7 @@ export default function DashboardScreen() {
                   />
                 </div>
               </Col>
-              <Col xs={8} className="p-3">
-                <small className="meal-type">{breakfastMeal.type}</small>
-                <h6 className="meal-name">{breakfastMeal.name}</h6>
-                <small className="meal-nutrition">
-                  {breakfastMeal.calories} kcal • P: {breakfastMeal.protein}g • C: {breakfastMeal.carbs}g • F: {breakfastMeal.fat}g
-                </small>
-              </Col>
-            </Row>
-          </Card>
-        
-
-          <Card
-            onClick={() => navigate("/meal-planner")}
-            className="meal-card shadow-sm"
-          >
-            <Row className="g-0">
-              <Col xs={4}>
-                <div className="meal-image-container">
-                  <img
-                    src={breakfastMeal.image}
-                    alt={breakfastMeal.name}
-                    className="meal-image"
-                  />
-                </div>
-              </Col>
-              <Col xs={8} className="p-3">
+              <Col xs={8} md={9} className="p-4">
                 <small className="meal-type">{breakfastMeal.type}</small>
                 <h6 className="meal-name">{breakfastMeal.name}</h6>
                 <small className="meal-nutrition">
@@ -141,7 +116,7 @@ export default function DashboardScreen() {
             className="meal-card shadow-sm"
           >
             <Row className="g-0">
-              <Col xs={4}>
+              <Col xs={4} md={3}>
                 <div className="meal-image-container">
                   <img
                     src={breakfastMeal.image}
@@ -150,7 +125,31 @@ export default function DashboardScreen() {
                   />
                 </div>
               </Col>
-              <Col xs={8} className="p-3">
+              <Col xs={8} md={9} className="p-4">
+                <small className="meal-type">{breakfastMeal.type}</small>
+                <h6 className="meal-name">{breakfastMeal.name}</h6>
+                <small className="meal-nutrition">
+                  {breakfastMeal.calories} kcal • P: {breakfastMeal.protein}g • C: {breakfastMeal.carbs}g • F: {breakfastMeal.fat}g
+                </small>
+              </Col>
+            </Row>
+          </Card>
+
+          <Card
+            onClick={() => navigate("/meal-planner")}
+            className="meal-card shadow-sm"
+          >
+            <Row className="g-0">
+            <Col xs={4} md={3}>
+                <div className="meal-image-container">
+                  <img
+                    src={breakfastMeal.image}
+                    alt={breakfastMeal.name}
+                    className="meal-image"
+                  />
+                </div>
+              </Col>
+              <Col xs={8} md={9} className="p-4">
                 <small className="meal-type">{breakfastMeal.type}</small>
                 <h6 className="meal-name">{breakfastMeal.name}</h6>
                 <small className="meal-nutrition">
@@ -166,7 +165,7 @@ export default function DashboardScreen() {
 
       {/* Bottom Navigation */}
       <div className="bottom-nav">
-        <Container style={{ maxWidth: 600 }}>
+        <Container>
           <Row className="text-center g-2">
             <Col>
               <Button
