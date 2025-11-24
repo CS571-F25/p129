@@ -8,7 +8,7 @@ import {
   Col,
   ProgressBar,
 } from "react-bootstrap";
-import { ChevronLeft, Share2, Plus } from "lucide-react";
+import { ChevronLeft, Share2, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./ShoppingListScreen.css";
 
@@ -43,6 +43,8 @@ export default function ShoppingListScreen() {
 
   const [shoppingList, setShoppingList] = useState(initialShoppingList);
   const [newItem, setNewItem] = useState("");
+  const [newAmount, setNewAmount] = useState("1");
+  const [newCategory, setNewCategory] = useState("Other");
 
   const toggleItem = (category, id) => {
     setShoppingList({
@@ -53,6 +55,13 @@ export default function ShoppingListScreen() {
     });
   };
 
+  const removeItem = (category, id) => {
+    setShoppingList({
+      ...shoppingList,
+      [category]: shoppingList[category].filter((item) => item.id !== id),
+    });
+  };
+
   const addCustomItem = () => {
     if (newItem.trim()) {
       const newId =
@@ -60,13 +69,14 @@ export default function ShoppingListScreen() {
 
       setShoppingList({
         ...shoppingList,
-        Other: [
-          ...shoppingList.Other,
-          { id: newId, name: newItem, amount: "1 pc", checked: false },
+        [newCategory]: [
+          ...shoppingList[newCategory],
+          { id: newId, name: newItem, amount: newAmount, checked: false },
         ],
       });
 
       setNewItem("");
+      setNewAmount("1");
     }
   };
 
@@ -76,22 +86,17 @@ export default function ShoppingListScreen() {
 
   return (
     <div className="shopping-list-container">
-      {/* HEADER */}
-      <div className="shopping-list-header">
-        <div className="header-left">
-          <Button variant="light" className="header-button" onClick={() => navigate(-1)}>
-            <ChevronLeft size={20} />
-          </Button>
-          <h4 className="header-title">Shopping List</h4>
+      <Container>
+        {/* HEADER */}
+        <div className="shopping-list-header">
+          <div className="header-left">
+            <Button variant="light" className="back-button" onClick={() => navigate(-1)}>
+              <ChevronLeft size={20} />
+            </Button>
+            <h2 className="header-title">Shopping List</h2>
+          </div>
+
         </div>
-
-        <Button variant="light" className="header-button">
-          <Share2 size={20} />
-        </Button>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <Container className="main-content">
 
         {/* PROGRESS */}
         <Card className="progress-card">
@@ -112,7 +117,7 @@ export default function ShoppingListScreen() {
         {/* ADD CUSTOM ITEM */}
         <Card className="add-item-card">
           <Row>
-            <Col xs={9}>
+            <Col xs={12} md={5}>
               <Form.Control
                 className="add-item-input"
                 placeholder="Add custom item..."
@@ -121,7 +126,29 @@ export default function ShoppingListScreen() {
                 onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
               />
             </Col>
-            <Col xs={3}>
+            <Col xs={6} md={3}>
+              <Form.Control
+                className="add-item-input"
+                placeholder="Amount"
+                value={newAmount}
+                onChange={(e) => setNewAmount(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
+              />
+            </Col>
+            <Col xs={4} md={2}>
+              <Form.Select
+                className="add-item-input"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+              >
+                {Object.keys(shoppingList).map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col xs={2} md={2}>
               <Button
                 className="add-item-button"
                 onClick={addCustomItem}
@@ -147,12 +174,28 @@ export default function ShoppingListScreen() {
                       checked={item.checked}
                       onChange={() => toggleItem(category, item.id)}
                     />
-                    <span className={item.checked ? "item-name item-name-checked" : "item-name"}>
+                    <span
+                      className={
+                        item.checked
+                          ? "item-name item-name-checked"
+                          : "item-name"
+                      }
+                    >
                       {item.name}
                     </span>
                   </div>
 
-                  <small className="item-amount">{item.amount}</small>
+                  <div className="d-flex align-items-center gap-2">
+                    <small className="item-amount">{item.amount}</small>
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => removeItem(category, item.id)}
+                      className="p-1"
+                    >
+                      <Trash2 size={14} />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </Card>

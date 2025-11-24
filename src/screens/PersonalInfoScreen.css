@@ -1,0 +1,92 @@
+.personal-info-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+  padding-bottom: 100px;
+  background-color: white;
+}
+
+.personal-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button {
+  background-color: white;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1f2937;
+}
+
+.back-button:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #1f2937;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.personal-info-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.personal-info-form .form-label {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.personal-info-form .form-control,
+.personal-info-form .form-select {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+}
+
+.personal-info-form .form-control:focus,
+.personal-info-form .form-select:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.25);
+}
+
+.personal-info-form .form-check {
+  padding: 0.5rem 0;
+}
+
+.personal-info-form .form-check-label {
+  color: #1f2937;
+  font-weight: 400;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1rem;
+  background-color: #22c55e;
+  border: none;
+}
+
+.submit-button:hover {
+  background-color: #16a34a;
+}
+

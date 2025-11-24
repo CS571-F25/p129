@@ -7,8 +7,8 @@ import "./WelcomeScreen.css";
 export default function WelcomeScreen() {
   const navigate = useNavigate();
 
-  const handleNext = () => navigate("/dashboard");
-  const handleLogin = () => navigate("/dashboard");
+  const handleNext = () => navigate("/signup");
+  const handleLogin = () => navigate("/login");
 
   return (
     <div className="welcome-container">
@@ -60,11 +60,7 @@ export default function WelcomeScreen() {
                 Continue with Google
               </Button>
 
-              {/* Apple */}
-              <Button size="lg" onClick={handleNext} className="btn-social">
-                <Apple className="me-2" size={20} style={{ color: "#374151" }} />
-                Continue with Apple
-              </Button>
+          
             </div>
 
             {/* Login Link */}
