@@ -142,10 +142,11 @@
 }
 
 .shopping-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 40px;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0;
+  gap: 1rem;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
 }
 
@@ -172,6 +173,14 @@
 .item-amount {
   font-size: 0.875rem;
   color: #6b7280;
+  text-align: center;
+}
+
+.delete-item-btn {
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-button {
@@ -189,5 +198,53 @@
   background-color: #f0fdf4;
   border-color: #16a34a;
   color: #16a34a;
+}
+
+/* Clear All Button */
+.clear-all-btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Add Item Title */
+.add-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-text {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Disabled button state */
+.add-item-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
 }
 

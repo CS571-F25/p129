@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Button,
@@ -12,39 +12,29 @@ import { ChevronLeft, Share2, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./ShoppingListScreen.css";
 
+const defaultCategories = {
+  Vegetables: [],
+  Protein: [],
+  Grains: [],
+  Dairy: [],
+  Other: [],
+};
+
 export default function ShoppingListScreen() {
   const navigate = useNavigate();
-  const initialShoppingList = {
-    Vegetables: [
-      { id: 1, name: "Avocado", amount: "2 pcs", checked: false },
-      { id: 2, name: "Cherry Tomatoes", amount: "1 cup", checked: false },
-      { id: 3, name: "Cucumber", amount: "1 pc", checked: false },
-      { id: 4, name: "Broccoli", amount: "2 cups", checked: false },
-      { id: 5, name: "Bell Pepper", amount: "1 pc", checked: true },
-      { id: 6, name: "Zucchini", amount: "1 pc", checked: false },
-    ],
-    Protein: [
-      { id: 7, name: "Salmon Fillets", amount: "2 x 6oz", checked: false },
-      { id: 8, name: "Eggs", amount: "1 dozen", checked: false },
-      { id: 9, name: "Greek Yogurt", amount: "500g", checked: false },
-    ],
-    Grains: [
-      { id: 10, name: "Quinoa", amount: "1 cup", checked: false },
-      { id: 11, name: "Whole Grain Bread", amount: "1 loaf", checked: true },
-    ],
-    Dairy: [{ id: 12, name: "Almond Milk", amount: "1 liter", checked: false }],
-    Other: [
-      { id: 13, name: "Olive Oil", amount: "1 bottle", checked: true },
-      { id: 14, name: "Mixed Nuts", amount: "200g", checked: false },
-      { id: 15, name: "Lemon", amount: "2 pcs", checked: false },
-      { id: 16, name: "Fresh Dill", amount: "1 bunch", checked: false },
-    ],
-  };
-
-  const [shoppingList, setShoppingList] = useState(initialShoppingList);
+  
+  const [shoppingList, setShoppingList] = useState(() => {
+    const saved = localStorage.getItem("shoppingList");
+    return saved ? JSON.parse(saved) : defaultCategories;
+  });
   const [newItem, setNewItem] = useState("");
-  const [newAmount, setNewAmount] = useState("1");
+  const [newAmount, setNewAmount] = useState("");
   const [newCategory, setNewCategory] = useState("Other");
+
+  // Save to localStorage whenever shoppingList changes
+  useEffect(() => {
+    localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+  }, [shoppingList]);
 
   const toggleItem = (category, id) => {
     setShoppingList({
@@ -64,25 +54,34 @@ export default function ShoppingListScreen() {
 
   const addCustomItem = () => {
     if (newItem.trim()) {
-      const newId =
-        Math.max(...Object.values(shoppingList).flat().map((i) => i.id)) + 1;
+      const allItems = Object.values(shoppingList).flat();
+      const newId = allItems.length > 0 
+        ? Math.max(...allItems.map((i) => i.id)) + 1 
+        : 1;
 
       setShoppingList({
         ...shoppingList,
         [newCategory]: [
           ...shoppingList[newCategory],
-          { id: newId, name: newItem, amount: newAmount, checked: false },
+          { id: newId, name: newItem.trim(), amount: newAmount.trim() || "1", checked: false },
         ],
       });
 
       setNewItem("");
-      setNewAmount("1");
+      setNewAmount("");
     }
+  };
+
+  const clearAllItems = () => {
+    setShoppingList(defaultCategories);
   };
 
   const allItems = Object.values(shoppingList).flat();
   const totalItems = allItems.length;
   const checkedItems = allItems.filter((i) => i.checked).length;
+
+  // Check if any category has items
+  const hasItems = totalItems > 0;
 
   return (
     <div className="shopping-list-container">
@@ -95,32 +94,44 @@ export default function ShoppingListScreen() {
             </Button>
             <h2 className="header-title">Shopping List</h2>
           </div>
-
+          {hasItems && (
+            <Button 
+              variant="outline-danger" 
+              size="sm" 
+              className="clear-all-btn"
+              onClick={clearAllItems}
+            >
+              Clear All
+            </Button>
+          )}
         </div>
 
         {/* PROGRESS */}
-        <Card className="progress-card">
-          <div className="progress-header">
-            <h5 className="progress-title">Progress</h5>
-            <small className="progress-stats">
-              {checkedItems} / {totalItems} items
-            </small>
-          </div>
+        {hasItems && (
+          <Card className="progress-card">
+            <div className="progress-header">
+              <h5 className="progress-title">Progress</h5>
+              <small className="progress-stats">
+                {checkedItems} / {totalItems} items
+              </small>
+            </div>
 
-          <ProgressBar
-            now={(checkedItems / totalItems) * 100}
-            variant="success"
-            className="progress-bar-custom"
-          />
-        </Card>
+            <ProgressBar
+              now={totalItems > 0 ? (checkedItems / totalItems) * 100 : 0}
+              variant="success"
+              className="progress-bar-custom"
+            />
+          </Card>
+        )}
 
         {/* ADD CUSTOM ITEM */}
         <Card className="add-item-card">
-          <Row>
+          <h6 className="add-item-title">Add Item</h6>
+          <Row className="g-2">
             <Col xs={12} md={5}>
               <Form.Control
                 className="add-item-input"
-                placeholder="Add custom item..."
+                placeholder="Item name..."
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
@@ -129,7 +140,7 @@ export default function ShoppingListScreen() {
             <Col xs={6} md={3}>
               <Form.Control
                 className="add-item-input"
-                placeholder="Amount"
+                placeholder="Amount (e.g. 2 pcs)"
                 value={newAmount}
                 onChange={(e) => setNewAmount(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
@@ -153,6 +164,7 @@ export default function ShoppingListScreen() {
                 className="add-item-button"
                 onClick={addCustomItem}
                 variant="success"
+                disabled={!newItem.trim()}
               >
                 <Plus size={18} />
               </Button>
@@ -160,53 +172,58 @@ export default function ShoppingListScreen() {
           </Row>
         </Card>
 
+        {/* EMPTY STATE */}
+        {!hasItems && (
+          <div className="empty-state">
+            <h5 className="empty-state-title">Your shopping list is empty</h5>
+            <p className="empty-state-text">Add items above to get started</p>
+          </div>
+        )}
+
         {/* CATEGORY LISTS */}
-        {Object.entries(shoppingList).map(([category, items]) => (
-          <div key={category} className="category-section">
-            <h5 className="category-title">{category}</h5>
+        {Object.entries(shoppingList).map(([category, items]) => 
+          items.length > 0 && (
+            <div key={category} className="category-section">
+              <h5 className="category-title">{category}</h5>
 
-            <Card className="category-card">
-              {items.map((item) => (
-                <div key={item.id} className="shopping-item">
-                  <div className="item-left">
-                    <Form.Check
-                      type="checkbox"
-                      checked={item.checked}
-                      onChange={() => toggleItem(category, item.id)}
-                    />
-                    <span
-                      className={
-                        item.checked
-                          ? "item-name item-name-checked"
-                          : "item-name"
-                      }
-                    >
-                      {item.name}
-                    </span>
-                  </div>
+              <Card className="category-card">
+                {items.map((item) => (
+                  <div key={item.id} className="shopping-item">
+                    <div className="item-left">
+                      <Form.Check
+                        type="checkbox"
+                        checked={item.checked}
+                        onChange={() => toggleItem(category, item.id)}
+                      />
+                      <span
+                        className={
+                          item.checked
+                            ? "item-name item-name-checked"
+                            : "item-name"
+                        }
+                      >
+                        {item.name}
+                      </span>
+                    </div>
 
-                  <div className="d-flex align-items-center gap-2">
-                    <small className="item-amount">{item.amount}</small>
+                    <span className="item-amount">{item.amount}</span>
+
                     <Button
                       variant="outline-danger"
                       size="sm"
                       onClick={() => removeItem(category, item.id)}
-                      className="p-1"
+                      className="delete-item-btn"
                     >
                       <Trash2 size={14} />
                     </Button>
                   </div>
-                </div>
-              ))}
-            </Card>
-          </div>
-        ))}
+                ))}
+              </Card>
+            </div>
+          )
+        )}
 
-        {/* SHARE BUTTON */}
-        <Button variant="outline-success" className="share-button">
-          <Share2 size={18} className="me-2" />
-          Share Shopping List
-        </Button>
+        
       </Container>
     </div>
   );
