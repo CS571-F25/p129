@@ -11,6 +11,7 @@ export default function PersonalInfoScreen() {
     age: "",
     weight: "",
     height: "",
+    gender: "",
     activityLevel: "",
     dietaryPrefs: {
       vegan: false,
@@ -22,6 +23,9 @@ export default function PersonalInfoScreen() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Save user data to localStorage
+    localStorage.setItem("userName", formData.name);
+    localStorage.setItem("userInfo", JSON.stringify(formData));
     navigate("/dashboard");
   };
 
@@ -72,6 +76,8 @@ export default function PersonalInfoScreen() {
               value={formData.age}
               onChange={(e) => setFormData({ ...formData, age: e.target.value })}
               placeholder="25"
+              min="1"
+              max="120"
               required
             />
           </div>
@@ -87,6 +93,8 @@ export default function PersonalInfoScreen() {
               value={formData.weight}
               onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
               placeholder="70"
+              min="1"
+              max="500"
               required
             />
           </div>
@@ -102,8 +110,47 @@ export default function PersonalInfoScreen() {
               value={formData.height}
               onChange={(e) => setFormData({ ...formData, height: e.target.value })}
               placeholder="170"
+              min="30"
+              max="300"
               required
             />
+          </div>
+        </div>
+
+        {/* Gender */}
+        <div className="mb-4">
+          <label className="form-label fw-semibold">Gender</label>
+          <div className="d-flex gap-4">
+            <div className="form-check form-check-inline">
+              <input
+                id="male"
+                type="radio"
+                name="gender"
+                className="form-check-input"
+                value="male"
+                checked={formData.gender === "male"}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                required
+              />
+              <label className="form-check-label" htmlFor="male">
+                Male
+              </label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                id="female"
+                type="radio"
+                name="gender"
+                className="form-check-input"
+                value="female"
+                checked={formData.gender === "female"}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                required
+              />
+              <label className="form-check-label" htmlFor="female">
+                Female
+              </label>
+            </div>
           </div>
         </div>
 
@@ -122,9 +169,11 @@ export default function PersonalInfoScreen() {
             required
           >
             <option value="">Select your activity level</option>
-            <option value="low">Low - Little or no exercise</option>
-            <option value="medium">Medium - Exercise 3–4 times/week</option>
-            <option value="high">High - Exercise 6–7 times/week</option>
+            <option value="sedentary">Sedentary - Little or no exercise</option>
+            <option value="lightly_active">Lightly Active - Exercise 1–3 times/week</option>
+            <option value="moderately_active">Moderately Active - Exercise 3–5 times/week</option>
+            <option value="very_active">Very Active - Exercise 6–7 times/week</option>
+            <option value="extra_active">Extra Active - Very intense exercise daily</option>
           </select>
         </div>
 

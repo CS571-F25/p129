@@ -1,61 +1,144 @@
-import React, { useState } from "react";
-import { Container, Card, Button, Row, Col } from "react-bootstrap";
-import { ChevronLeft, MoreVertical, Plus, Shuffle } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Container, Card, Button } from "react-bootstrap";
+import { ChevronLeft, ChevronRight, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./MealPlannerScreen.css";
 
-const weeklyMeals = {
-  Monday: [
-    {
-      type: "Breakfast",
-      name: "Avocado Toast & Smoothie Bowl",
-      calories: 450,
-      image:
-        "https://images.unsplash.com/photo-1676471970358-1cff04452e7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-    {
-      type: "Lunch",
-      name: "Mediterranean Salad Bowl",
-      calories: 520,
-      image:
-        "https://images.unsplash.com/photo-1670970146850-c892818f76a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-    {
-      type: "Dinner",
-      name: "Grilled Salmon with Vegetables",
-      calories: 620,
-      image:
-        "https://images.unsplash.com/photo-1759271082074-6cde09f86550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-  ],
-  Tuesday: [
-    {
-      type: "Breakfast",
-      name: "Protein Smoothie Bowl",
-      calories: 380,
-      image:
-        "https://images.unsplash.com/photo-1592503469196-3a7880cc2d05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-    {
-      type: "Lunch",
-      name: "Grilled Chicken & Quinoa",
-      calories: 580,
-      image:
-        "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-    {
-      type: "Dinner",
-      name: "Pasta Primavera",
-      calories: 560,
-      image:
-        "https://images.unsplash.com/photo-1593996470434-890a14b11a6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg",
-    },
-  ],
-};
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const mealTypes = ["Breakfast", "Lunch", "Dinner"];
 
 export default function MealPlannerScreen() {
   const navigate = useNavigate();
-  const [view, setView] = useState("day");
+  const [weekOffset, setWeekOffset] = useState(0); // 0 = this week, 1 = next week
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [plannedMeals, setPlannedMeals] = useState({});
+
+  // Load planned meals from localStorage
+  useEffect(() => {
+    const loadMeals = () => {
+      const saved = JSON.parse(localStorage.getItem("plannedMeals") || "{}");
+      setPlannedMeals(saved);
+    };
+
+    loadMeals();
+    
+    // Listen for storage changes
+    window.addEventListener("storage", loadMeals);
+    window.addEventListener("focus", loadMeals);
+    
+    return () => {
+      window.removeEventListener("storage", loadMeals);
+      window.removeEventListener("focus", loadMeals);
+    };
+  }, []);
+
+  // Get the Monday of the current week
+  const getMonday = (date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    return new Date(d.setDate(diff));
+  };
+
+  // Calculate week dates
+  const weekDates = useMemo(() => {
+    const today = new Date();
+    const monday = getMonday(today);
+    monday.setDate(monday.getDate() + weekOffset * 7);
+    
+    return daysOfWeek.map((day, index) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + index);
+      return {
+        day,
+        date: date.getDate(),
+        month: date.toLocaleDateString("en-US", { month: "short" }),
+        fullDate: date,
+        dateKey: date.toISOString(),
+        isToday: date.toDateString() === new Date().toDateString(),
+      };
+    });
+  }, [weekOffset]);
+
+  // Get meals for a specific date
+  const getMealsForDate = (dateKey) => {
+    // Find meals matching this date
+    const meals = {};
+    Object.keys(plannedMeals).forEach(key => {
+      if (key.startsWith(dateKey.split("T")[0])) {
+        Object.assign(meals, plannedMeals[key]);
+      }
+    });
+    return meals;
+  };
+
+  // Check if a meal exists for a date
+  const hasMeal = (dateKey, mealType) => {
+    const meals = getMealsForDate(dateKey);
+    return !!meals[mealType];
+  };
+
+  // Get week label
+  const getWeekLabel = () => {
+    if (weekOffset === 0) return "This Week";
+    if (weekOffset === 1) return "Next Week";
+    return `Week of ${weekDates[0].month} ${weekDates[0].date}`;
+  };
+
+  // Get short day name
+  const getShortDay = (day) => day.substring(0, 3);
+
+  // Get selected day info
+  const selectedDayInfo = weekDates[selectedDayIndex];
+  const selectedDayMeals = getMealsForDate(selectedDayInfo.dateKey);
+
+  // Format selected day title
+  const getSelectedDayTitle = () => {
+    const { day, date, month } = selectedDayInfo;
+    return `${day}, ${month} ${date}`;
+  };
+
+  // Navigate weeks
+  const goToPreviousWeek = () => {
+    if (weekOffset > 0) {
+      setWeekOffset(weekOffset - 1);
+    }
+  };
+
+  const goToNextWeek = () => {
+    if (weekOffset < 1) {
+      setWeekOffset(weekOffset + 1);
+    }
+  };
+
+  // Delete a meal
+  const handleDeleteMeal = (e, mealType) => {
+    e.stopPropagation();
+    const dateKey = selectedDayInfo.dateKey.split("T")[0];
+    const updatedMeals = { ...plannedMeals };
+    
+    // Find and delete the meal
+    Object.keys(updatedMeals).forEach(key => {
+      if (key.startsWith(dateKey) && updatedMeals[key][mealType]) {
+        delete updatedMeals[key][mealType];
+      }
+    });
+    
+    localStorage.setItem("plannedMeals", JSON.stringify(updatedMeals));
+    setPlannedMeals(updatedMeals);
+  };
+
+  // Swap a meal (navigate to recipe database)
+  const handleSwapMeal = (e, mealType) => {
+    e.stopPropagation();
+    navigate("/recipe-database", {
+      state: {
+        mealType,
+        date: getSelectedDayTitle(),
+        fullDate: selectedDayInfo.fullDate.toISOString()
+      }
+    });
+  };
 
   return (
     <div className="meal-planner-container">
@@ -68,127 +151,131 @@ export default function MealPlannerScreen() {
             </Button>
             <h2 className="header-title">Meal Planner</h2>
           </div>
-
-          <Button variant="light" className="menu-button">
-            <MoreVertical size={18} />
-          </Button>
         </div>
 
-        {/* View Toggle - Segmented Control */}
-        <div className="view-toggle-container">
-          <button
-            className={`view-toggle-button ${view === "day" ? "active" : ""}`}
-            onClick={() => setView("day")}
+        {/* Week Navigation */}
+        <div className="week-nav">
+          <button 
+            className={`week-nav-arrow ${weekOffset === 0 ? "disabled" : ""}`}
+            onClick={goToPreviousWeek}
+            disabled={weekOffset === 0}
           >
-            Daily View
+            <ChevronLeft size={20} />
           </button>
-          <button
-            className={`view-toggle-button ${view === "week" ? "active" : ""}`}
-            onClick={() => setView("week")}
+          <span className="week-nav-title">{getWeekLabel()}</span>
+          <button 
+            className={`week-nav-arrow ${weekOffset === 1 ? "disabled" : ""}`}
+            onClick={goToNextWeek}
+            disabled={weekOffset === 1}
           >
-            Weekly View
+            <ChevronRight size={20} />
           </button>
         </div>
 
-        {/* DAILY VIEW */}
-        {view === "day" && (
-          <>
-            <div className="day-header">
-              <h4 className="day-title">Monday, October 6</h4>
-              <span className="day-calories">1870 kcal</span>
-            </div>
-
-            <div className="meals-list">
-              {weeklyMeals.Monday.map((meal, index) => (
-                <Card className="meal-card shadow-sm" key={index}>
-                  <div className="meal-card-content">
-                    <div className="meal-image-wrapper">
-                      <img
-                        src={meal.image}
-                        alt={meal.name}
-                        className="meal-image"
-                        onError={(e) => {
-                          e.target.src = "https://via.placeholder.com/100?text=Meal";
-                        }}
-                      />
-                    </div>
-
-                    <div className="meal-details">
-                      <p className="meal-type">{meal.type.toUpperCase()}</p>
-                      <h5 className="meal-name">{meal.name}</h5>
-                      <p className="meal-calories">{meal.calories} kcal</p>
-
-                      <div className="meal-actions">
-                        <button className="action-button btn-swap">
-                          <Shuffle size={14} />
-                          Swap
-                        </button>
-
-                        <button
-                          className="action-button btn-edit"
-                          onClick={() => navigate("/recipe-database")}
-                        >
-                          Edit
-                        </button>
-
-                        <button className="action-button btn-delete">Delete</button>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
+        {/* Days Selector */}
+        <div className="days-selector">
+          {weekDates.map((dayInfo, index) => (
             <button
-              className="add-meal-button"
-              onClick={() => navigate("/recipe-database")}
+              key={dayInfo.day}
+              className={`day-button ${selectedDayIndex === index ? "active" : ""} ${dayInfo.isToday ? "today" : ""}`}
+              onClick={() => setSelectedDayIndex(index)}
             >
-              <Plus size={16} />
-              Add Meal
+              <span className="day-short">{getShortDay(dayInfo.day)}</span>
+              <span className="day-date">{dayInfo.date}</span>
             </button>
-          </>
-        )}
+          ))}
+        </div>
 
-        {/* WEEKLY VIEW */}
-        {view === "week" && (
-          <div className="weekly-view-container">
-            <Row className="g-4">
-              {Object.entries(weeklyMeals).map(([day, meals]) => (
-                <Col lg={6} key={day}>
-                  <div className="week-day-section">
-                    <div className="week-day-header">
-                      <h5 className="week-day-title">{day}</h5>
-                      <span className="week-day-calories">
-                        {meals.reduce((sum, m) => sum + m.calories, 0)} kcal
-                      </span>
+        {/* Selected Day Title */}
+        <h3 className="selected-day-title">{getSelectedDayTitle()}</h3>
+
+        {/* Meal Cards */}
+        <div className="meals-grid">
+          {mealTypes.map((mealType) => {
+            const meal = selectedDayMeals[mealType];
+            return (
+              <Card key={mealType} className={`meal-slot-card shadow-sm ${meal ? "has-meal" : ""}`}>
+                <div className="meal-slot-header">
+                  <span className="meal-slot-type">{mealType}</span>
+                </div>
+                {meal ? (
+                  <div 
+                    className="meal-added-body"
+                    onClick={() => navigate(`/recipe/${meal.id}`)}
+                  >
+                    <img 
+                      src={meal.image} 
+                      alt={meal.name}
+                      className="meal-added-image"
+                    />
+                    <div className="meal-added-info">
+                      <span className="meal-type-label">{mealType}</span>
+                      <p className="meal-added-name">{meal.name}</p>
                     </div>
-
-                    <div className="week-meals-grid">
-                      {meals.map((meal, index) => (
-                        <Card className="week-meal-card shadow-sm" key={index}>
-                          <div className="week-meal-image-container">
-                            <img
-                              src={meal.image}
-                              alt={meal.name}
-                              className="week-meal-image"
-                              onError={(e) => {
-                                e.target.src = "https://via.placeholder.com/200?text=Meal";
-                              }}
-                            />
-                          </div>
-                          <div className="week-meal-body">
-                            <p className="week-meal-type">{meal.type}</p>
-                            <p className="week-meal-name">{meal.name}</p>
-                          </div>
-                        </Card>
-                      ))}
+                    <div className="meal-actions">
+                      <button 
+                        className="meal-action-btn swap-btn"
+                        onClick={(e) => handleSwapMeal(e, mealType)}
+                        title="Swap meal"
+                      >
+                        <RefreshCw size={14} />
+                      </button>
+                      <button 
+                        className="meal-action-btn delete-btn"
+                        onClick={(e) => handleDeleteMeal(e, mealType)}
+                        title="Delete meal"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   </div>
-                </Col>
-              ))}
-            </Row>
+                ) : (
+                  <div 
+                    className="meal-slot-body"
+                    onClick={() => navigate("/recipe-database", {
+                      state: {
+                        mealType,
+                        date: getSelectedDayTitle(),
+                        fullDate: selectedDayInfo.fullDate.toISOString()
+                      }
+                    })}
+                  >
+                    <div className="add-meal-circle">
+                      <Plus size={24} />
+                    </div>
+                    <p className="add-meal-text">Add {mealType}</p>
+                  </div>
+                )}
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Weekly Overview */}
+        <div className="weekly-overview">
+          <h4 className="weekly-overview-title">Weekly Overview</h4>
+          <div className="weekly-grid">
+            {weekDates.map((dayInfo, index) => (
+              <div 
+                key={dayInfo.day} 
+                className={`weekly-day-card ${selectedDayIndex === index ? "active" : ""} ${dayInfo.isToday ? "today" : ""}`}
+                onClick={() => setSelectedDayIndex(index)}
+              >
+                <span className="weekly-day-name">{getShortDay(dayInfo.day)}</span>
+                <span className="weekly-day-date">{dayInfo.date}</span>
+                <div className="weekly-meals-dots">
+                  {mealTypes.map((meal) => (
+                    <div 
+                      key={meal} 
+                      className={`meal-dot ${hasMeal(dayInfo.dateKey, meal) ? "filled" : "empty"}`} 
+                      title={meal} 
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </Container>
     </div>
   );
