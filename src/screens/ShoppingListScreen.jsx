@@ -22,9 +22,10 @@ const defaultCategories = {
 
 export default function ShoppingListScreen() {
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName") || "Guest";
   
   const [shoppingList, setShoppingList] = useState(() => {
-    const saved = localStorage.getItem("shoppingList");
+    const saved = localStorage.getItem(`${userName}_shoppingList`);
     return saved ? JSON.parse(saved) : defaultCategories;
   });
   const [newItem, setNewItem] = useState("");
@@ -33,8 +34,8 @@ export default function ShoppingListScreen() {
 
   // Save to localStorage whenever shoppingList changes
   useEffect(() => {
-    localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
-  }, [shoppingList]);
+    localStorage.setItem(`${userName}_shoppingList`, JSON.stringify(shoppingList));
+  }, [shoppingList, userName]);
 
   const toggleItem = (category, id) => {
     setShoppingList({

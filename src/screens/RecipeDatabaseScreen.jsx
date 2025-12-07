@@ -62,7 +62,8 @@ export default function RecipeDatabaseScreen() {
   // Confirm adding meal
   const confirmAddMeal = () => {
     // Save meal to localStorage
-    const savedMeals = JSON.parse(localStorage.getItem("plannedMeals") || "{}");
+    const userName = localStorage.getItem("userName") || "Guest";
+    const savedMeals = JSON.parse(localStorage.getItem(`${userName}_plannedMeals`) || "{}");
     const dateKey = mealContext.fullDate;
     if (!savedMeals[dateKey]) {
       savedMeals[dateKey] = {};
@@ -72,7 +73,7 @@ export default function RecipeDatabaseScreen() {
       name: selectedMeal.strMeal,
       image: selectedMeal.strMealThumb,
     };
-    localStorage.setItem("plannedMeals", JSON.stringify(savedMeals));
+    localStorage.setItem(`${userName}_plannedMeals`, JSON.stringify(savedMeals));
     
     setShowConfirmModal(false);
     setSelectedMeal(null);

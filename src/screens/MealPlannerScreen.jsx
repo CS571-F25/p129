@@ -9,6 +9,7 @@ const mealTypes = ["Breakfast", "Lunch", "Dinner"];
 
 export default function MealPlannerScreen() {
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName") || "Guest";
   const [weekOffset, setWeekOffset] = useState(0); // 0 = this week, 1 = next week
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const [plannedMeals, setPlannedMeals] = useState({});
@@ -16,7 +17,7 @@ export default function MealPlannerScreen() {
   // Load planned meals from localStorage
   useEffect(() => {
     const loadMeals = () => {
-      const saved = JSON.parse(localStorage.getItem("plannedMeals") || "{}");
+      const saved = JSON.parse(localStorage.getItem(`${userName}_plannedMeals`) || "{}");
       setPlannedMeals(saved);
     };
 
@@ -30,7 +31,7 @@ export default function MealPlannerScreen() {
       window.removeEventListener("storage", loadMeals);
       window.removeEventListener("focus", loadMeals);
     };
-  }, []);
+  }, [userName]);
 
   // Get the Monday of the current week
   const getMonday = (date) => {
@@ -124,7 +125,7 @@ export default function MealPlannerScreen() {
       }
     });
     
-    localStorage.setItem("plannedMeals", JSON.stringify(updatedMeals));
+    localStorage.setItem(`${userName}_plannedMeals`, JSON.stringify(updatedMeals));
     setPlannedMeals(updatedMeals);
   };
 

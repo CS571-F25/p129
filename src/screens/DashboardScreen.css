@@ -275,6 +275,27 @@
   color: #374151;
 }
 
+.nav-button-white:active,
+.nav-button-white:focus,
+.nav-button-white.active {
+  background-color: #22c55e !important;
+  border-color: #22c55e !important;
+  color: white !important;
+  box-shadow: none !important;
+}
+
+.nav-button-white:active .nav-icon-white,
+.nav-button-white:focus .nav-icon-white,
+.nav-button-white.active .nav-icon-white {
+  color: white !important;
+}
+
+.nav-button-white:active .nav-label-white,
+.nav-button-white:focus .nav-label-white,
+.nav-button-white.active .nav-label-white {
+  color: white !important;
+}
+
 .nav-button-green {
   background-color: #22c55e;
   border: none;

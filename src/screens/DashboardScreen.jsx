@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import { Plus, Sparkles, ShoppingCart, CalendarDays, RefreshCw, Trash2 } from "lucide-react";
+import { Plus, ShoppingCart, CalendarDays, RefreshCw, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./DashboardScreen.css";
 
@@ -62,7 +62,8 @@ export default function DashboardScreen() {
       }
 
       // Load planned meals for today
-      const plannedMeals = JSON.parse(localStorage.getItem("plannedMeals") || "{}");
+      const currentUserName = localStorage.getItem("userName") || "Guest";
+      const plannedMeals = JSON.parse(localStorage.getItem(`${currentUserName}_plannedMeals`) || "{}");
       const todayKey = new Date().toISOString().split("T")[0];
       // Check for meals matching today's date
       const todaysMeals = {};
@@ -109,7 +110,8 @@ export default function DashboardScreen() {
   // Delete a meal
   const handleDeleteMeal = (e, mealType) => {
     e.stopPropagation();
-    const plannedMeals = JSON.parse(localStorage.getItem("plannedMeals") || "{}");
+    const currentUserName = localStorage.getItem("userName") || "Guest";
+    const plannedMeals = JSON.parse(localStorage.getItem(`${currentUserName}_plannedMeals`) || "{}");
     const todayKey = new Date().toISOString().split("T")[0];
     
     // Find and delete the meal
@@ -119,7 +121,7 @@ export default function DashboardScreen() {
       }
     });
     
-    localStorage.setItem("plannedMeals", JSON.stringify(plannedMeals));
+    localStorage.setItem(`${currentUserName}_plannedMeals`, JSON.stringify(plannedMeals));
     
     // Update state
     const newTodayMeals = { ...todayMeals };
@@ -243,15 +245,6 @@ export default function DashboardScreen() {
               >
                 <CalendarDays size={22} className="nav-icon nav-icon-white" />
                 <small className="nav-label nav-label-white">Plan Weekly</small>
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                className="nav-button nav-button-green"
-                onClick={() => navigate("/meal-planner")}
-              >
-                <Sparkles size={22} className="nav-icon nav-icon-green" />
-                <small className="nav-label nav-label-green">Surprise Me</small>
               </Button>
             </Col>
             <Col>
