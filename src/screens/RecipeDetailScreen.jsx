@@ -111,6 +111,7 @@ export default function RecipeDetailScreen() {
           variant="light"
           className="back-button-floating"
           onClick={() => navigate(-1)}
+          aria-label="Go back"
         >
           <ChevronLeft size={24} />
         </Button>
@@ -131,7 +132,7 @@ export default function RecipeDetailScreen() {
 
         {/* Ingredients */}
         <div className="recipe-section">
-          <h3 className="section-title">Ingredients</h3>
+          <h2 className="section-title">Ingredients</h2>
           <div className="ingredients-list">
             {ingredients.map((item, index) => (
               <div key={index} className="ingredient-item">
@@ -144,7 +145,7 @@ export default function RecipeDetailScreen() {
 
         {/* Instructions */}
         <div className="recipe-section">
-          <h3 className="section-title">Instructions</h3>
+          <h2 className="section-title">Instructions</h2>
           <div className="instructions-steps">
             {steps.map((step, index) => (
               <div key={index} className="instruction-step">
@@ -158,14 +159,14 @@ export default function RecipeDetailScreen() {
         {/* YouTube Video */}
         {youtubeId && (
           <div className="recipe-section">
-            <h3 className="section-title">
+            <h2 className="section-title">
               <Youtube size={20} className="me-2" />
               Video Tutorial
-            </h3>
+            </h2>
             <div className="video-container">
               <iframe
                 src={`https://www.youtube.com/embed/${youtubeId}`}
-                title="Recipe Video"
+                title={`Video tutorial for ${recipe.strMeal}`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -177,7 +178,7 @@ export default function RecipeDetailScreen() {
         {/* Tags */}
         {recipe.strTags && (
           <div className="recipe-section">
-            <h3 className="section-title">Tags</h3>
+            <h2 className="section-title">Tags</h2>
             <div className="tags-container">
               {recipe.strTags.split(",").map((tag, index) => (
                 <span key={index} className="recipe-tag-small">

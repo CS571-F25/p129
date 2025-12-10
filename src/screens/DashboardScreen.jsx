@@ -156,7 +156,7 @@ export default function DashboardScreen() {
       <Container style={{ marginTop: "-30px" }}>
         {/* Summary Card */}
         <Card className="nutrition-card shadow-sm">
-          <h5 className="nutrition-title">Daily Calories Needed</h5>
+          <h2 className="nutrition-title">Daily Calories Needed</h2>
           <div className="calories-display">
             <span className="calories-number">{targetCalories}</span>
             <span className="calories-unit">calories per day</span>
@@ -164,7 +164,7 @@ export default function DashboardScreen() {
         </Card>
 
         {/* Meals */}
-        <h4 className="meals-title">Today's Meals</h4>
+        <h2 className="meals-title">Today's Meals</h2>
 
         <div className="d-flex flex-column gap-3">
           {mealTypes.map((mealType) => {
@@ -203,6 +203,7 @@ export default function DashboardScreen() {
                         className="meal-action-btn swap-btn"
                         onClick={(e) => handleSwapMeal(e, mealType)}
                         title="Swap meal"
+                        aria-label={`Swap ${mealType}`}
                       >
                         <RefreshCw size={16} />
                       </button>
@@ -210,6 +211,7 @@ export default function DashboardScreen() {
                         className="meal-action-btn delete-btn"
                         onClick={(e) => handleDeleteMeal(e, mealType)}
                         title="Delete meal"
+                        aria-label={`Delete ${mealType}`}
                       >
                         <Trash2 size={16} />
                       </button>

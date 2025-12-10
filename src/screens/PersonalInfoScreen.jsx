@@ -39,7 +39,7 @@ export default function PersonalInfoScreen() {
         {/* Header */}
         <div className="personal-info-header">
           <div className="header-left">
-            <Button variant="light" className="back-button" onClick={handleBack}>
+            <Button variant="light" className="back-button" onClick={handleBack} aria-label="Go back">
               <ChevronLeft size={20} />
             </Button>
             <h2 className="header-title">Personal Information</h2>

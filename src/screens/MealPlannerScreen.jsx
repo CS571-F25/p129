@@ -147,7 +147,7 @@ export default function MealPlannerScreen() {
         {/* Header */}
         <div className="meal-planner-header">
           <div className="header-left">
-            <Button variant="light" className="back-button" onClick={() => navigate(-1)}>
+            <Button variant="light" className="back-button" onClick={() => navigate(-1)} aria-label="Go back">
               <ChevronLeft size={20} />
             </Button>
             <h2 className="header-title">Meal Planner</h2>
@@ -160,6 +160,7 @@ export default function MealPlannerScreen() {
             className={`week-nav-arrow ${weekOffset === 0 ? "disabled" : ""}`}
             onClick={goToPreviousWeek}
             disabled={weekOffset === 0}
+            aria-label="Previous week"
           >
             <ChevronLeft size={20} />
           </button>
@@ -168,6 +169,7 @@ export default function MealPlannerScreen() {
             className={`week-nav-arrow ${weekOffset === 1 ? "disabled" : ""}`}
             onClick={goToNextWeek}
             disabled={weekOffset === 1}
+            aria-label="Next week"
           >
             <ChevronRight size={20} />
           </button>
@@ -218,6 +220,7 @@ export default function MealPlannerScreen() {
                         className="meal-action-btn swap-btn"
                         onClick={(e) => handleSwapMeal(e, mealType)}
                         title="Swap meal"
+                        aria-label={`Swap ${mealType}`}
                       >
                         <RefreshCw size={14} />
                       </button>
@@ -225,6 +228,7 @@ export default function MealPlannerScreen() {
                         className="meal-action-btn delete-btn"
                         onClick={(e) => handleDeleteMeal(e, mealType)}
                         title="Delete meal"
+                        aria-label={`Delete ${mealType}`}
                       >
                         <Trash2 size={14} />
                       </button>
@@ -254,7 +258,7 @@ export default function MealPlannerScreen() {
 
         {/* Weekly Overview */}
         <div className="weekly-overview">
-          <h4 className="weekly-overview-title">Weekly Overview</h4>
+          <h3 className="weekly-overview-title">Weekly Overview</h3>
           <div className="weekly-grid">
             {weekDates.map((dayInfo, index) => (
               <div 

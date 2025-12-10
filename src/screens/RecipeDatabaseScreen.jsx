@@ -270,7 +270,7 @@ export default function RecipeDatabaseScreen() {
         {/* HEADER */}
         <div className="recipe-database-header">
           <div className="header-left">
-            <Button variant="light" className="back-button" onClick={() => navigate(-1)}>
+            <Button variant="light" className="back-button" onClick={() => navigate(-1)} aria-label="Go back">
               <ChevronLeft size={20} />
             </Button>
             <div>
@@ -294,11 +294,13 @@ export default function RecipeDatabaseScreen() {
               placeholder="Search meals by name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search meals by name"
             />
             {searchQuery !== "" && (
               <button
                 className="search-clear-button"
                 onClick={handleClearSearch}
+                aria-label="Clear search"
               >
                 <X size={18} />
               </button>
@@ -349,6 +351,7 @@ export default function RecipeDatabaseScreen() {
                 value={areaSearch}
                 onChange={(e) => setAreaSearch(e.target.value)}
                 autoFocus
+                aria-label="Search areas"
               />
             </div>
             <div className="filter-dropdown-list">
@@ -379,6 +382,7 @@ export default function RecipeDatabaseScreen() {
                 value={ingredientSearch}
                 onChange={(e) => setIngredientSearch(e.target.value)}
                 autoFocus
+                aria-label="Search ingredients"
               />
             </div>
             <div className="filter-dropdown-list">
@@ -458,6 +462,7 @@ export default function RecipeDatabaseScreen() {
                         variant="success"
                         className="add-meal-button"
                         onClick={(e) => handleAddMeal(e, recipe)}
+                        aria-label={`Add ${recipe.strMeal} to meal plan`}
                       >
                         <Plus size={16} />
                       </Button>
@@ -468,6 +473,7 @@ export default function RecipeDatabaseScreen() {
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
+                        aria-label="Add to favorites"
                       >
                         <Heart size={16} />
                       </Button>
@@ -487,7 +493,7 @@ export default function RecipeDatabaseScreen() {
                     {!recipe.strCategory && activeFilter === "ingredient" && (
                       <span className="recipe-tag ingredient-tag">{selectedIngredient}</span>
                     )}
-                    <h6 className="recipe-title">{recipe.strMeal}</h6>
+                    <h3 className="recipe-title">{recipe.strMeal}</h3>
                   </Card.Body>
                 </Card>
               </Col>
@@ -516,7 +522,7 @@ export default function RecipeDatabaseScreen() {
                 alt={selectedMeal.strMeal}
                 className="confirm-modal-image"
               />
-              <h5 className="confirm-modal-title">Add to Meal Plan?</h5>
+              <h3 className="confirm-modal-title">Add to Meal Plan?</h3>
               <p className="confirm-modal-text">
                 Confirm to add <strong>{selectedMeal.strMeal}</strong> to {mealContext?.date} {mealContext?.mealType}?
               </p>

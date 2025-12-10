@@ -90,7 +90,7 @@ export default function ShoppingListScreen() {
         {/* HEADER */}
         <div className="shopping-list-header">
           <div className="header-left">
-            <Button variant="light" className="back-button" onClick={() => navigate(-1)}>
+            <Button variant="light" className="back-button" onClick={() => navigate(-1)} aria-label="Go back">
               <ChevronLeft size={20} />
             </Button>
             <h2 className="header-title">Shopping List</h2>
@@ -111,7 +111,7 @@ export default function ShoppingListScreen() {
         {hasItems && (
           <Card className="progress-card">
             <div className="progress-header">
-              <h5 className="progress-title">Progress</h5>
+              <h3 className="progress-title">Progress</h3>
               <small className="progress-stats">
                 {checkedItems} / {totalItems} items
               </small>
@@ -127,7 +127,7 @@ export default function ShoppingListScreen() {
 
         {/* ADD CUSTOM ITEM */}
         <Card className="add-item-card">
-          <h6 className="add-item-title">Add Item</h6>
+          <h3 className="add-item-title">Add Item</h3>
           <Row className="g-2">
             <Col xs={12} md={5}>
               <Form.Control
@@ -136,6 +136,7 @@ export default function ShoppingListScreen() {
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
+                aria-label="Item name"
               />
             </Col>
             <Col xs={6} md={3}>
@@ -145,6 +146,7 @@ export default function ShoppingListScreen() {
                 value={newAmount}
                 onChange={(e) => setNewAmount(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addCustomItem()}
+                aria-label="Amount"
               />
             </Col>
             <Col xs={4} md={2}>
@@ -152,6 +154,7 @@ export default function ShoppingListScreen() {
                 className="add-item-input"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
+                aria-label="Category"
               >
                 {Object.keys(shoppingList).map((cat) => (
                   <option key={cat} value={cat}>
@@ -166,6 +169,7 @@ export default function ShoppingListScreen() {
                 onClick={addCustomItem}
                 variant="success"
                 disabled={!newItem.trim()}
+                aria-label="Add item"
               >
                 <Plus size={18} />
               </Button>
@@ -176,7 +180,7 @@ export default function ShoppingListScreen() {
         {/* EMPTY STATE */}
         {!hasItems && (
           <div className="empty-state">
-            <h5 className="empty-state-title">Your shopping list is empty</h5>
+            <h3 className="empty-state-title">Your shopping list is empty</h3>
             <p className="empty-state-text">Add items above to get started</p>
           </div>
         )}
@@ -185,7 +189,7 @@ export default function ShoppingListScreen() {
         {Object.entries(shoppingList).map(([category, items]) => 
           items.length > 0 && (
             <div key={category} className="category-section">
-              <h5 className="category-title">{category}</h5>
+              <h3 className="category-title">{category}</h3>
 
               <Card className="category-card">
                 {items.map((item) => (
@@ -214,6 +218,7 @@ export default function ShoppingListScreen() {
                       size="sm"
                       onClick={() => removeItem(category, item.id)}
                       className="delete-item-btn"
+                      aria-label={`Remove ${item.name}`}
                     >
                       <Trash2 size={14} />
                     </Button>
